@@ -4,6 +4,10 @@
 
 Prometheus-kafka-adapter is a service which receives [Prometheus](https://github.com/prometheus) metrics through [`remote_write`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write), marshal into JSON and sends them into [Kafka](https://github.com/apache/kafka).
 
+## UPDATE 2024/10/12
+
+Add new environments varies control kafka produce channel size.
+- `KAFKA_PRODUCE_CHAN_SIZE`: kafka_produce_chan_size is mapped `go.produce.channel.size` to `librdkafka`. default value `1,000,000`, this change increases its value to 10,000,000.
 ## output
 
 It is able to write JSON or Avro-JSON messages in a kafka topic, depending on the `SERIALIZATION_FORMAT` configuration variable.
