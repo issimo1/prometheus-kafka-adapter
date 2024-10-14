@@ -17,6 +17,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -29,7 +30,7 @@ import (
 
 var (
 	//默认缓存100w 这里加到1000w
-	kafkaProduceChannelSize = "10000000"
+	kafkaProduceChannelSize = 10000000
 	kafkaBrokerList         = "kafka:9092"
 	kafkaTopic              = "metrics"
 	topicTemplate           *template.Template
@@ -56,7 +57,7 @@ func init() {
 	logrus.SetOutput(os.Stdout)
 
 	if value := os.Getenv("KAFKA_PRODUCE_CHAN_SIZE"); value != "" {
-		kafkaProduceChannelSize = value
+		kafkaProduceChannelSize, _ = strconv.Atoi(value)
 	}
 
 	if value := os.Getenv("LOG_LEVEL"); value != "" {

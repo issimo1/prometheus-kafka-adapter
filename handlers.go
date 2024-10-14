@@ -70,11 +70,15 @@ func receiveHandler(producer *kafka.Producer, serializer Serializer) func(c *gin
 			}
 			for _, metric := range metrics {
 				objectsWritten.Add(float64(1))
+				if len(producer.ProduceChannel()) < kafkaProduceChannelSize {
+					go func() {
+
+					}()
+				}
 				err := producer.Produce(&kafka.Message{
 					TopicPartition: part,
 					Value:          metric,
 				}, nil)
-
 				if err != nil {
 					objectsFailed.Add(float64(1))
 					c.AbortWithStatus(http.StatusInternalServerError)
