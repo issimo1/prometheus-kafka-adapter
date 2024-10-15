@@ -28,12 +28,13 @@ func main() {
 	logrus.Info("creating kafka producer")
 
 	kafkaConfig := kafka.ConfigMap{
+		// go. produce. channel. size
 		"go.produce.channel.size": kafkaProduceChannelSize,
 		"bootstrap.servers":       kafkaBrokerList,
 		"compression.codec":       kafkaCompression,
 		"batch.num.messages":      kafkaBatchNumMessages,
-		"go.batch.producer":       true,  // Enable batch producer (for increased performance).
-		"go.delivery.reports":     false, // per-message delivery reports to the Events() channel
+		"go.batch.producer":       kafkaBatchProduce, // Enable batch producer (for increased performance).
+		"go.delivery.reports":     false,             // per-message delivery reports to the Events() channel
 		"acks":                    kafkaAcks,
 	}
 

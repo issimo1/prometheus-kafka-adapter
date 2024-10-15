@@ -30,6 +30,7 @@ import (
 
 var (
 	//默认缓存100w 这里加到1000w
+	kafkaBatchProduce       = true
 	kafkaProduceChannelSize = 10000000
 	kafkaBrokerList         = "kafka:9092"
 	kafkaTopic              = "metrics"
@@ -55,6 +56,10 @@ var (
 func init() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetOutput(os.Stdout)
+
+	if value := os.Getenv("KAFKA_BATCH_PRODUCE"); value != "" {
+		kafkaBatchProduce = false
+	}
 
 	if value := os.Getenv("KAFKA_PRODUCE_CHAN_SIZE"); value != "" {
 		kafkaProduceChannelSize, _ = strconv.Atoi(value)
