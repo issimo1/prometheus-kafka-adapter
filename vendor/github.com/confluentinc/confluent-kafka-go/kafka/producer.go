@@ -508,7 +508,6 @@ func NewProducer(conf *ConfigMap) (*Producer, error) {
 
 	cErrstr := (*C.char)(C.malloc(C.size_t(256)))
 	defer C.free(unsafe.Pointer(cErrstr))
-	C.rd_kafka_conf_set(cConf,"",10000)
 	C.rd_kafka_conf_set_events(cConf, C.RD_KAFKA_EVENT_DR|C.RD_KAFKA_EVENT_STATS|C.RD_KAFKA_EVENT_ERROR|C.RD_KAFKA_EVENT_OAUTHBEARER_TOKEN_REFRESH)
 
 	// Create librdkafka producer instance
