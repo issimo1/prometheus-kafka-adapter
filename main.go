@@ -43,6 +43,7 @@ func main() {
 		//			 v
 		//	     librdkafka (queue.buffering.max.messages)
 		// 1,000,000 时大约占用1.17GB 单个消息占用1117Bytes 大约是1.2KB
+		"go.produce.channel.size":      kafkaProduceChannelSize,
 		"queue.buffering.max.messages": kafkaBufferQueueSize,
 		"bootstrap.servers":            kafkaBrokerList,
 		"compression.codec":            kafkaCompression,
