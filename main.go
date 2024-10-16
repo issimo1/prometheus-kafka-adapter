@@ -28,14 +28,28 @@ func main() {
 	logrus.Info("creating kafka producer")
 
 	kafkaConfig := kafka.ConfigMap{
-		// go. produce. channel. size
-		"go.produce.channel.size": kafkaProduceChannelSize,
-		"bootstrap.servers":       kafkaBrokerList,
-		"compression.codec":       kafkaCompression,
-		"batch.num.messages":      kafkaBatchNumMessages,
-		"go.batch.producer":       kafkaBatchProduce, // Enable batch producer (for increased performance).
-		"go.delivery.reports":     false,             // per-message delivery reports to the Events() channel
-		"acks":                    kafkaAcks,
+		/*
+		   {_RK_GLOBAL | _RK_PRODUCER | _RK_HIGH, "queue.buffering.max.messages",
+		    _RK_C_INT, _RK(queue_buffering_max_msgs),
+		    "Maximum number of messages allowed on the producer queue. "
+		    "This queue is shared by all topics and partitions. A value of 0 disables "
+		    "this limit.",
+		    0, INT_MAX, 100000},
+		*/
+		// 三层结构
+		// prometheus-kafka-adapter
+		// 			 v
+		// 		kafka-go-client
+		//			 v
+		//	     librdkafka (queue.buffering.max.messages)
+		// 1,000,000 时大约占用1.17GB 单个消息占用1117Bytes 大约是1.2KB
+		"queue.buffering.max.messages": kafkaBufferQueueSize,
+		"bootstrap.servers":            kafkaBrokerList,
+		"compression.codec":            kafkaCompression,
+		"batch.num.messages":           kafkaBatchNumMessages,
+		"go.batch.producer":            kafkaBatchProduce, // Enable batch producer (for increased performance).
+		"go.delivery.reports":          false,             // per-message delivery reports to the Events() channel
+		"acks":                         kafkaAcks,
 	}
 
 	if kafkaSslClientCertFile != "" && kafkaSslClientKeyFile != "" && kafkaSslCACertFile != "" {

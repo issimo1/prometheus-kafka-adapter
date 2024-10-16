@@ -30,27 +30,27 @@ import (
 
 var (
 	//默认缓存100w 这里加到1000w
-	kafkaBatchProduce       = true
-	kafkaProduceChannelSize = 10000000
-	kafkaBrokerList         = "kafka:9092"
-	kafkaTopic              = "metrics"
-	topicTemplate           *template.Template
-	match                   = make(map[string]*dto.MetricFamily, 0)
-	basicauth               = false
-	basicauthUsername       = ""
-	basicauthPassword       = ""
-	kafkaCompression        = "none"
-	kafkaBatchNumMessages   = "10000"
-	kafkaSslClientCertFile  = ""
-	kafkaSslClientKeyFile   = ""
-	kafkaSslClientKeyPass   = ""
-	kafkaSslCACertFile      = ""
-	kafkaSecurityProtocol   = ""
-	kafkaSaslMechanism      = ""
-	kafkaSaslUsername       = ""
-	kafkaSaslPassword       = ""
-	serializer              Serializer
-	kafkaAcks               = "all"
+	kafkaBatchProduce      = true
+	kafkaBufferQueueSize   = 1000000
+	kafkaBrokerList        = "kafka:9092"
+	kafkaTopic             = "metrics"
+	topicTemplate          *template.Template
+	match                  = make(map[string]*dto.MetricFamily, 0)
+	basicauth              = false
+	basicauthUsername      = ""
+	basicauthPassword      = ""
+	kafkaCompression       = "none"
+	kafkaBatchNumMessages  = "10000"
+	kafkaSslClientCertFile = ""
+	kafkaSslClientKeyFile  = ""
+	kafkaSslClientKeyPass  = ""
+	kafkaSslCACertFile     = ""
+	kafkaSecurityProtocol  = ""
+	kafkaSaslMechanism     = ""
+	kafkaSaslUsername      = ""
+	kafkaSaslPassword      = ""
+	serializer             Serializer
+	kafkaAcks              = "all"
 )
 
 func init() {
@@ -62,7 +62,7 @@ func init() {
 	}
 
 	if value := os.Getenv("KAFKA_PRODUCE_CHAN_SIZE"); value != "" {
-		kafkaProduceChannelSize, _ = strconv.Atoi(value)
+		kafkaBufferQueueSize, _ = strconv.Atoi(value)
 	}
 
 	if value := os.Getenv("LOG_LEVEL"); value != "" {
